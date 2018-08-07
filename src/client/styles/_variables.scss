@@ -1,0 +1,13 @@
+// -----------------------------------------------------------------------------
+// VARIABLES
+// -----------------------------------------------------------------------------
+
+$icon-font-path: '../../node_modules/bootstrap-sass/assets/fonts/bootstrap/';
+$fa-font-path: '../../node_modules/font-awesome/fonts/';
+// $fa-font-path: '//netdna.bootstrapcdn.com/font-awesome/4.5.0/fonts'; // for referencing Bootstrap CDN font files directly
+$fa-css-prefix: icon;
+
+$body-bg: #fff;
+
+
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/variables';

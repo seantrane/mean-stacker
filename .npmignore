@@ -1,0 +1,15 @@
+*.md
+!README.md
+.bowerrc
+.dockerignore
+.github
+.npmrc
+.sass-lint.yml
+.travis.yml
+.vscode
+/docs
+/e2e
+/tests
+logs
+package-lock.json
+yarn.lock

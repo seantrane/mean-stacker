@@ -1,0 +1,21 @@
+//* You can add global styles to this file, and also import other style files */
+
+// Variables + Mixins
+@import 'include';
+// Bootstrap + FontAwesome
+@import 'base';
+
+// -----------------------------------------------------------------------------
+
+body {
+  background-color: $body-bg;
+}
+
+.layout {
+  margin-top: 100px;
+}
+
+// Hide default border to remove 1px line.
+.navbar-fixed-top {
+  border: 0;
+}

@@ -1,0 +1,11 @@
+{
+  "SITE": {
+    "TITLE": "{{title}}",
+    "DESCRIPTION": "{{title}} is a MEAN stack starter kit."
+  },
+  "HOME": {
+    "WELCOME": "Welcome to the {{title}}",
+    "HELLO": "Hello world. I love to translate language.",
+    "CHANGE_LANGUAGE": "Change language"
+  }
+}

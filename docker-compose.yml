@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+
+  mean-stacker-app-local:
+    image: mean-stacker-app:local
+    container_name: mean-stacker-app-local
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    env_file:
+      - .env
+      - .localrc
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '4200:4200'
+
+  mean-stacker-app-prod:
+    image: mean-stacker-app:prod
+    container_name: mean-stacker-app-prod
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    env_file:
+      - .env
+    ports:
+      - '4201:4201'

@@ -1,0 +1,32 @@
+@import '../../styles/include';
+
+// Angular :host, :host-context, ::ng-deep - Angular View Encapsulation
+// @see https://blog.angular-university.io/angular-host-context/
+
+$home-header-color: #000;
+$red-theme-home-header-color: #c00;
+
+:host {
+  h1 {
+    color: $home-header-color;
+  }
+  ::ng-deep {
+    h2 {
+      color: $home-header-color;
+    }
+  }
+}
+
+:host-context(.red-theme) {
+  h1 {
+    color: $red-theme-home-header-color;
+  }
+}
+
+.logo-stack {
+  img {
+    margin: 10px;
+    max-height: 80px;
+    max-width: 80px;
+  }
+}

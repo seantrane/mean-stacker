@@ -1,0 +1,78 @@
+# ------------------------------------------------------------------------------
+# BUILD STAGE
+# ------------------------------------------------------------------------------
+FROM node:8 as builder
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# install chrome for protractor tests
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+  && apt-get update \
+  && apt-get install --no-install-recommends --no-install-suggests -yq \
+    curl \
+    git \
+    google-chrome-stable \
+    openssh-client \
+    openssh-server \
+  && rm -rf /var/lib/apt/lists/* \
+  && npm i -g --unsafe \
+    @angular/cli \
+    pm2 \
+  && npm cache clean -g -f \
+  && ng config -g cli.packageManager yarn \
+  # && git clone --depth=1 https://github.com/docker/docker-bench-security.git /docker-bench-security && rm -rf !$/.git \
+  # && chmod -R 755 /docker-bench-security \
+  # set working directory
+  && mkdir -p /usr/src/app
+
+WORKDIR /usr/src/app
+
+# install and cache app dependencies
+COPY package.json yarn.lock /usr/src/app/
+RUN yarn install
+
+# Copy the current directory contents into the container at /app
+ADD . /usr/src/app
+
+# run tests, build, and re-install only production dependencies
+RUN yarn run lint \
+  && yarn run test --watch=false \
+  && yarn run build:prod \
+  && rm -Rf node_modules \
+  && yarn install --prod \
+  && npm cache clean -f < /dev/null 2> /dev/null \
+  && chmod -R 775 start.sh
+
+# ------------------------------------------------------------------------------
+# FINAL STAGE
+# ------------------------------------------------------------------------------
+FROM node:8-alpine
+
+RUN mkdir -p /usr/src/app \
+  && mkdir -p /usr/src/app/logs \
+  && touch /usr/src/app/logs/express-error.log \
+    /usr/src/app/logs/express-out.log \
+    /usr/src/app/logs/ng-error.log \
+    /usr/src/app/logs/ng-out.log \
+  && chmod -R 770 /usr/src/app/logs
+
+WORKDIR /usr/src/app
+
+# copy artifact build from the 'build environment'
+COPY --from=builder \
+  /usr/src/app/dist \
+  /usr/src/app/ecosystem.config.js \
+  /usr/src/app/package.json \
+  /usr/src/app/start.sh \
+  /usr/src/app/webpack.server.config.js \
+  /usr/src/app/
+
+EXPOSE 3000
+
+# start app
+CMD start.sh
+
+# HEALTHCHECK --interval=5m --timeout=7s \
+#   CMD curl -f http://localhost:3000/ || exit 1

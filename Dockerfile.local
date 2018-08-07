@@ -1,0 +1,36 @@
+FROM node:8
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# install chrome for protractor tests
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+  && apt-get update \
+  && apt-get install --no-install-recommends --no-install-suggests -yq \
+    curl \
+    git \
+    google-chrome-stable \
+    openssh-client \
+    openssh-server \
+  && rm -rf /var/lib/apt/lists/* \
+  && npm i -g --unsafe \
+    @angular/cli \
+    pm2 \
+  && npm cache clean -g -f \
+  # && git clone --depth=1 https://github.com/docker/docker-bench-security.git /docker-bench-security && rm -rf !$/.git \
+  # && chmod -R 755 /docker-bench-security \
+  # set working directory
+  && mkdir -p /usr/src/app
+
+WORKDIR /usr/src/app
+
+# install and cache app dependencies
+COPY package.json package-lock.json /usr/src/app/
+RUN npm install
+
+# Copy the current directory contents into the container at /app
+ADD . /usr/src/app
+
+# start app
+CMD ng serve --host 0.0.0.0

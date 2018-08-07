@@ -1,0 +1,7 @@
+{
+  "HOME": {
+    "WELCOME": "Bienvenida a la {{title}}",
+    "HELLO": "Hola Mundo. Me encanta traducir el lenguaje.",
+    "CHANGE_LANGUAGE": "Cambiar idioma"
+  }
+}
