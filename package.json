@@ -129,7 +129,7 @@
     "@types/mongodb": "^3.0.18",
     "@types/mongoose": "~5.2.4",
     "@types/morgan": "^1.7.35",
-    "@types/node": "~10.7.0",
+    "@types/node": "~10.9.0",
     "@types/request": "^2.47.0",
     "@types/serve-static": "^1.13.2",
     "@types/validator": "^9.4.1",
