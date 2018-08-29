@@ -1,7 +1,7 @@
 {
   "name": "mean-stacker",
   "description": "A MEAN Stack Starter Kit",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "author": "Sean Trane Sciarrone",
   "license": "MIT",
   "homepage": "https://github.com/seantrane/mean-stacker",
