@@ -22,32 +22,24 @@ before_install:
 install:
   - travis_retry ./run --install
 stages:
-  - before
   - test
-  - after
   - name: deploy
-    if: branch = master
+    if: repo = seantrane/mean-stacker
+        AND type != pull_request
+        AND branch = master
 jobs:
   include:
-    - stage: before
-      name: 'Greenkeeper lockfile update'
-      script: greenkeeper-lockfile-update
-    - name: 'Repository Checks'
+    - stage: test
+      name: 'Checks and Tests'
       script:
+        - greenkeeper-lockfile-update
         - commitlint-travis
         - travis_retry github-label-sync -a "$GH_TOKEN" -l 'https://git.io/fAe5i' seantrane/mean-stacker
-    - stage: test
-      name: 'Lint Analysis'
-      script: ./run --lint
-    # disabled until fixed:
-    # - name: 'Testing and Reporting'
-    #   script: ./run --test --report
-    # disabled until fixed:
-    # - name: 'E2E Testing'
-    #   script: ./run --e2e
-    - stage: after
-      name: 'Greenkeeper lockfile upload'
-      script: greenkeeper-lockfile-upload
+        - ./run --lint
+        # disabled until fixed:
+        # - ./run --test --report
+        # - ./run --e2e
+        - greenkeeper-lockfile-upload
     - stage: deploy
       name: 'Publish, Upload and Deploy'
       script: ./run --publish
