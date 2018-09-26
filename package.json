@@ -137,7 +137,7 @@
     "bootstrap-sass": "^3.3.7",
     "codelyzer": "~4.4.3",
     "font-awesome": "^4.7.0",
-    "husky": "^0.14.3",
+    "husky": "^1.0.0",
     "jasmine-core": "~3.1.0",
     "jasmine-spec-reporter": "~4.2.1",
     "jasmine-ts": "^0.2.1",
