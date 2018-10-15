@@ -2,9 +2,9 @@
 
 PROCESS_ENV="local"
 
-if [[ ! -z "${NODE_ENV:-}" ]]; then
+if [[ -n "${NODE_ENV:-}" ]]; then
   PROCESS_ENV=${NODE_ENV}
-elif [[ ! -z "${ENV:-}" ]]; then
+elif [[ -n "${ENV:-}" ]]; then
   PROCESS_ENV=${ENV}
 fi
 
