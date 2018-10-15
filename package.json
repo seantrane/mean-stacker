@@ -125,7 +125,7 @@
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/jsonwebtoken": "^7.2.7",
-    "@types/lodash": "^4.14.108",
+    "@types/lodash": "^4.14.117",
     "@types/mongodb": "^3.0.18",
     "@types/mongoose": "~5.2.4",
     "@types/morgan": "^1.7.35",
