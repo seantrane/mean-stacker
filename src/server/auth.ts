@@ -73,7 +73,6 @@ export function createSampleUser(req: Request, res: Response) {
   userService.create([{
     name: 'Kaiser Sosay',
     email: 'sosayk@mail.com',
-    password: 'password',
     admin: true
   }], (err, docs) => {
     if (err) {
