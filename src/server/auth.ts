@@ -73,7 +73,6 @@ export function createSampleUser(req: Request, res: Response) {
   userService.create([{
     name: 'Kaiser Sosay',
     email: 'sosayk@mail.com',
-    password: [...Array(14)].map(i=>(~~(Math.random()*36)).toString(36)).join(''),
     admin: true
   }], (err, docs) => {
     if (err) {
