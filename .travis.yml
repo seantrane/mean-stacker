@@ -21,7 +21,7 @@ branches:
 before_install:
   # package-lock.json was introduced in npm@5
   - '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest' # skipped when using node 9
-  - npm install -g github-label-sync greenkeeper-lockfile @angular/cli karma-cli protractor semantic-release typescript webpack webpack-dev-server
+  - npm install -g github-label-sync greenkeeper-lockfile stshell @angular/cli karma-cli protractor semantic-release typescript webpack webpack-dev-server
 install:
   - travis_retry ./run --install
 stages:
