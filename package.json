@@ -13,7 +13,6 @@
     "url": "https://github.com/seantrane/mean-stacker/issues"
   },
   "scripts": {
-    "commitmsg": "commitlint -E GIT_PARAMS",
     "build:client-and-server-bundles": "ng build --prod && ng run mean-stacker:server",
     "build:fr": "ng build --configuration=production-fr",
     "build:prod": "ng build --prod",
@@ -195,5 +194,10 @@
       "@semantic-release/github"
     ],
     "npmPublish": false
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
