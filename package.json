@@ -4,14 +4,9 @@
   "version": "1.0.2",
   "author": "Sean Trane Sciarrone",
   "license": "MIT",
-  "homepage": "https://github.com/seantrane/mean-stacker",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/seantrane/mean-stacker.git"
-  },
-  "bugs": {
-    "url": "https://github.com/seantrane/mean-stacker/issues"
-  },
+  "homepage": "https://github.com/seantrane/mean-stacker#readme",
+  "repository": "github:seantrane/mean-stacker",
+  "bugs": "https://github.com/seantrane/mean-stacker/issues",
   "scripts": {
     "build:client-and-server-bundles": "ng build --prod && ng run mean-stacker:server",
     "build:fr": "ng build --configuration=production-fr",
