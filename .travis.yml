@@ -26,51 +26,27 @@ before_install:
 install:
   - travis_retry npm install
 stages:
-  - prepare cache
   - test
-  - integration
   - name: deploy
     if: repo = seantrane/mean-stacker
         AND type != pull_request
         AND branch = master
 jobs:
   include:
-    - stage: prepare cache
-      name: 'Install Dependencies'
-      script: true
     - stage: test
-      name: 'Greenkeeper lockfile update'
-      if: branch =~ /^greenkeeper.*$/
+      name: 'Checks and Tests'
       script:
-        - greenkeeper-lockfile-update
-    - stage: test
-      name: 'Lint Checks and Chores'
-      script:
+        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-update'
         - commitlint-travis
         - npm run lint
         - docker pull koalaman/shellcheck:stable
         - docker run -v "$PWD:/mnt" koalaman/shellcheck ./run ./*.sh || travis_terminate 1;
         - travis_retry github-label-sync -a "$GH_TOKEN" -l 'https://git.io/fAe5i' seantrane/mean-stacker
-    - stage: test
-      name: 'Unit Testing on master branch and PRs'
-      if: branch = master
-      script:
-        # disabled until fixed:
+        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-update'
         # - npm run test
         # - npm run e2e
-        - sonar-scanner
-    - stage: test
-      name: 'Unit Testing on other branches'
-      if: branch != master
-      script: true
-        # disabled until fixed:
-        # - npm run test
-        # - npm run e2e
-    - stage: integration
-      name: 'Greenkeeper lockfile upload'
-      if: branch =~ /^greenkeeper.*$/
-      script:
-        - greenkeeper-lockfile-upload
+        - '[[ $TRAVIS_BRANCH = master ]] && sonar-scanner'
+        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-upload'
     - stage: deploy
       name: 'Publish, Upload and Deploy'
       script:
