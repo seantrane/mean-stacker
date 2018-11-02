@@ -28,6 +28,7 @@ install:
 stages:
   - prepare cache
   - test
+  - integration
   - name: deploy
     if: repo = seantrane/mean-stacker
         AND type != pull_request
@@ -37,16 +38,35 @@ jobs:
     - stage: prepare cache
       script: true
     - stage: test
-      name: 'Checks and Tests'
+      name: 'Greenkeeper lockfile update'
+      if: branch =~ /^greenkeeper.*$/
       script:
         - greenkeeper-lockfile-update
+    - stage: test
+      name: 'Lint Checks and Chores'
+      script:
         - commitlint-travis
-        - travis_retry github-label-sync -a "$GH_TOKEN" -l 'https://git.io/fAe5i' seantrane/mean-stacker
         - ./run --lint
+        - travis_retry github-label-sync -a "$GH_TOKEN" -l 'https://git.io/fAe5i' seantrane/mean-stacker
+    - stage: test
+      name: 'Unit Testing on master branch and PRs'
+      if: branch = master
+      script:
         # disabled until fixed:
         # - ./run --debug --test --report
         # - ./run --debug --e2e
         - sonar-scanner
+    - stage: test
+      name: 'Unit Testing on other branches'
+      if: branch != master
+      script: true
+        # disabled until fixed:
+        # - ./run --debug --test
+        # - ./run --debug --e2e
+    - stage: integration
+      name: 'Greenkeeper lockfile upload'
+      if: branch =~ /^greenkeeper.*$/
+      script:
         - greenkeeper-lockfile-upload
     - stage: deploy
       name: 'Publish, Upload and Deploy'
