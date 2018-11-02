@@ -11,6 +11,7 @@ cache:
   directories:
     - ~/.npm
     - node_modules
+  npm: true
   yarn: true
 notifications:
   email: false
@@ -25,6 +26,7 @@ before_install:
 install:
   - travis_retry ./run --install
 stages:
+  - prepare cache
   - test
   - name: deploy
     if: repo = seantrane/mean-stacker
@@ -32,6 +34,8 @@ stages:
         AND branch = master
 jobs:
   include:
+    - stage: prepare cache
+      script: true
     - stage: test
       name: 'Checks and Tests'
       script:
