@@ -36,17 +36,16 @@ jobs:
     - stage: test
       name: 'Checks and Tests'
       script:
-        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-update || travis_terminate 0;'
+        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-update || echo "Skipping greenkeeper-lockfile-update";'
         - commitlint-travis
         - npm run lint
         - docker pull koalaman/shellcheck:stable
         - docker run -v "$PWD:/mnt" koalaman/shellcheck ./run ./*.sh || travis_terminate 1;
         - travis_retry github-label-sync -a "$GH_TOKEN" -l 'https://git.io/fAe5i' seantrane/mean-stacker
-        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-update'
         # - npm run test
         # - npm run e2e
-        - '[[ $TRAVIS_BRANCH = master ]] && sonar-scanner'
-        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-upload || travis_terminate 0;'
+        - '[[ $TRAVIS_BRANCH = master ]] && sonar-scanner || echo "Skipping sonar-scanner";'
+        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-upload || echo "Skipping greenkeeper-lockfile-upload";'
     - stage: deploy
       name: 'Publish, Upload and Deploy'
       script:
