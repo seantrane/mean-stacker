@@ -24,7 +24,7 @@ before_install:
   - '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest' # skipped when using node 9
   - npm install -g github-label-sync greenkeeper-lockfile stshell @angular/cli karma-cli protractor semantic-release typescript webpack webpack-dev-server
 install:
-  - travis_retry ./run --install
+  - travis_retry npm install
 stages:
   - prepare cache
   - test
@@ -36,6 +36,7 @@ stages:
 jobs:
   include:
     - stage: prepare cache
+      name: 'Install Dependencies'
       script: true
     - stage: test
       name: 'Greenkeeper lockfile update'
@@ -46,23 +47,25 @@ jobs:
       name: 'Lint Checks and Chores'
       script:
         - commitlint-travis
-        - ./run --lint
+        - npm run lint
+        - docker pull koalaman/shellcheck:stable
+        - docker run -v "$PWD:/mnt" koalaman/shellcheck ./run ./*.sh || travis_terminate 1;
         - travis_retry github-label-sync -a "$GH_TOKEN" -l 'https://git.io/fAe5i' seantrane/mean-stacker
     - stage: test
       name: 'Unit Testing on master branch and PRs'
       if: branch = master
       script:
         # disabled until fixed:
-        # - ./run --debug --test --report
-        # - ./run --debug --e2e
+        # - npm run test
+        # - npm run e2e
         - sonar-scanner
     - stage: test
       name: 'Unit Testing on other branches'
       if: branch != master
       script: true
         # disabled until fixed:
-        # - ./run --debug --test
-        # - ./run --debug --e2e
+        # - npm run test
+        # - npm run e2e
     - stage: integration
       name: 'Greenkeeper lockfile upload'
       if: branch =~ /^greenkeeper.*$/
@@ -70,4 +73,5 @@ jobs:
         - greenkeeper-lockfile-upload
     - stage: deploy
       name: 'Publish, Upload and Deploy'
-      script: ./run --debug --publish
+      script:
+        - npm run semantic-release
