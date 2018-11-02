@@ -11,6 +11,7 @@ cache:
   directories:
     - ~/.npm
     - node_modules
+  npm: true
   yarn: true
 notifications:
   email: false
@@ -21,9 +22,9 @@ branches:
 before_install:
   # package-lock.json was introduced in npm@5
   - '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest' # skipped when using node 9
-  - npm install -g github-label-sync greenkeeper-lockfile stshell @angular/cli karma-cli protractor semantic-release typescript webpack webpack-dev-server
+  - npm install -g github-label-sync greenkeeper-lockfile stshell @angular/cli semantic-release typescript
 install:
-  - travis_retry ./run --install
+  - travis_retry npm install
 stages:
   - test
   - name: deploy
@@ -35,15 +36,17 @@ jobs:
     - stage: test
       name: 'Checks and Tests'
       script:
-        - greenkeeper-lockfile-update
+        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-update || echo "Skipping greenkeeper-lockfile-update";'
         - commitlint-travis
+        - npm run lint
+        - docker pull koalaman/shellcheck:stable
+        - docker run -v "$PWD:/mnt" koalaman/shellcheck ./run ./*.sh || travis_terminate 1;
         - travis_retry github-label-sync -a "$GH_TOKEN" -l 'https://git.io/fAe5i' seantrane/mean-stacker
-        - ./run --lint
-        # disabled until fixed:
-        # - ./run --debug --test --report
-        # - ./run --debug --e2e
-        - sonar-scanner
-        - greenkeeper-lockfile-upload
+        # - npm run test
+        # - npm run e2e
+        - '[[ $TRAVIS_BRANCH = master ]] && sonar-scanner || echo "Skipping sonar-scanner";'
+        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-upload || echo "Skipping greenkeeper-lockfile-upload";'
     - stage: deploy
       name: 'Publish, Upload and Deploy'
-      script: ./run --debug --publish
+      script:
+        - npm run semantic-release
