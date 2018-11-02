@@ -36,7 +36,7 @@ jobs:
     - stage: test
       name: 'Checks and Tests'
       script:
-        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-update'
+        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-update || travis_terminate 0;'
         - commitlint-travis
         - npm run lint
         - docker pull koalaman/shellcheck:stable
@@ -46,7 +46,7 @@ jobs:
         # - npm run test
         # - npm run e2e
         - '[[ $TRAVIS_BRANCH = master ]] && sonar-scanner'
-        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-upload'
+        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-upload || travis_terminate 0;'
     - stage: deploy
       name: 'Publish, Upload and Deploy'
       script:
