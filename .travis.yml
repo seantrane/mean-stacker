@@ -37,6 +37,7 @@ jobs:
       name: 'Checks and Tests'
       script:
         - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-update || echo "Skipping greenkeeper-lockfile-update";'
+        - npm audit
         - commitlint-travis
         - npm run lint
         - docker pull koalaman/shellcheck:stable
