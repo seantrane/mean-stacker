@@ -48,7 +48,7 @@ export abstract class BaseCollection {
   }
 
   concat(...items: Array<(BaseEntity | Array<BaseEntity>)>): number {
-    this._collection.concat(...items);
+    this._collection = this._collection.concat(...items);
 
     return this.length;
   }
