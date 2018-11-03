@@ -109,6 +109,7 @@
     "@semantic-release/changelog": "^3.0.0",
     "@semantic-release/exec": "^3.0.1",
     "@semantic-release/git": "^7.0.1",
+    "@semantic-release/npm": "^5.0.5",
     "@types/body-parser": "^1.17.0",
     "@types/cookie-parser": "^1.4.1",
     "@types/core-js": "^2.5.0",
