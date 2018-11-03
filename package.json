@@ -187,7 +187,7 @@
     "publish": [
       {
         "path": "@semantic-release/exec",
-        "cmd": "./run --debug --upload --deploy"
+        "cmd": "./run --debug"
       },
       "@semantic-release/github"
     ],
