@@ -43,6 +43,7 @@
     "lint:server": "tslint \"src/server/**/*.ts\"",
     "lint:services": "tslint \"src/services/**/*.ts\"",
     "lint:styles": "sass-lint -v -q",
+    "lint:ts:report": "tslint -t json -o coverage/unit-report.json \"src/**/*.ts\"",
     "lint:utils": "tslint \"src/utils/**/*.ts\"",
     "lint": "npm run lint:md && npm run lint:utils && npm run lint:services && npm run lint:server && npm run lint:client && npm run lint:styles",
     "ng": "ng",
