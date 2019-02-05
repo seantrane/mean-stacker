@@ -146,7 +146,7 @@
     "karma-jasmine-html-reporter": "^1.2.0",
     "karma-remap-coverage": "^0.1.5",
     "markdownlint-cli": "^0.13.0",
-    "nyc": "^12.0.2",
+    "nyc": "^13.2.0",
     "protractor": "^5.4.0",
     "sass-lint": "^1.12.1",
     "semantic-release": "^15.9.5",
