@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [1.0.4](https://github.com/seantrane/mean-stacker/compare/v1.0.3...v1.0.4) (2019-02-09)
+
+
+### Bug Fixes
+
+* change license from MIT to ISC ([340aed7](https://github.com/seantrane/mean-stacker/commit/340aed7))
+
 ## [1.0.3](https://github.com/seantrane/mean-stacker/compare/v1.0.2...v1.0.3) (2018-11-03)
 
 
