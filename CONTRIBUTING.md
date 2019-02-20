@@ -49,7 +49,7 @@ Thank you for contributing.
 ## Clone the Repository <a id="clone-repo"></a>
 
 ```bash
-git clone https://github.com/seantrane/mean-stacker.git mean-stacker && cd mean-stacker
+git clone git@github.com:seantrane/mean-stacker.git mean-stacker && cd mean-stacker
 ```
 
 ## Install Dependencies <a id="install-dependencies"></a>
