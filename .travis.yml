@@ -1,12 +1,7 @@
 sudo: required
 language: node_js
-services:
-  - docker
-addons:
-  sonarcloud:
-    organization: "seantrane-github"
 node_js:
-  - '8'
+  - '10'
 cache:
   directories:
     - ~/.npm
@@ -15,14 +10,28 @@ cache:
   yarn: true
 notifications:
   email: false
+services:
+  - docker
+addons:
+  chrome: stable
+  sonarcloud:
+    organization: seantrane-github
+git:
+  depth: false
 branches:
   only:
     - master
     - /^release.*$/
+env:
+  global:
+    - PATH=$HOME/.local/bin:$PATH
+    - PATH=$PWD:$PATH
 before_install:
   # package-lock.json was introduced in npm@5
   - '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest' # skipped when using node 9
   - npm install -g github-label-sync stshell typescript @angular/cli
+  # start your web application and listen on `localhost`
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 install:
   - travis_retry npm install
 stages:
@@ -38,13 +47,13 @@ jobs:
       script:
         - '[[ $TRAVIS_BRANCH =~ ^release.*$ ]] && npm audit || echo "Skipping npm audit";'
         - commitlint-travis
+        - travis_retry github-label-sync -a "$GH_TOKEN" -l 'https://git.io/fAe5i' seantrane/mean-stacker
         - npm run lint
         - docker pull koalaman/shellcheck:stable
         - docker run -v "$PWD:/mnt" koalaman/shellcheck ./run ./*.sh || travis_terminate 1;
-        - travis_retry github-label-sync -a "$GH_TOKEN" -l 'https://git.io/fAe5i' seantrane/mean-stacker
-        # - npm run test
-        # - npm run e2e
-        - '[[ $TRAVIS_BRANCH = master ]] && sonar-scanner || echo "Skipping sonar-scanner";'
+        # - xvfb-run npm run test
+        # - xvfb-run npm run e2e -- --no-progress
+        - sonar-scanner
     - stage: deploy
       name: 'Publish, Upload and Deploy'
       script:
