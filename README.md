@@ -2,7 +2,7 @@
 
 > MEAN Stacker is a MEAN stack starter kit.
 
-[![Build Status](https://travis-ci.com/seantrane/mean-stacker.svg?branch=master)](https://travis-ci.com/seantrane/mean-stacker) [![dependencies Status](https://david-dm.org/seantrane/mean-stacker/status.svg)](https://david-dm.org/seantrane/mean-stacker) [![devDependencies Status](https://david-dm.org/seantrane/mean-stacker/dev-status.svg)](https://david-dm.org/seantrane/mean-stacker?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/seantrane/mean-stacker.svg)](https://greenkeeper.io/) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![Build Status](https://travis-ci.com/seantrane/mean-stacker.svg?branch=master)](https://travis-ci.com/seantrane/mean-stacker) [![dependencies Status](https://david-dm.org/seantrane/mean-stacker/status.svg)](https://david-dm.org/seantrane/mean-stacker) [![devDependencies Status](https://david-dm.org/seantrane/mean-stacker/dev-status.svg)](https://david-dm.org/seantrane/mean-stacker?type=dev) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 ## Table of Contents
 

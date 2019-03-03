@@ -18,11 +18,11 @@ notifications:
 branches:
   only:
     - master
-    - /^greenkeeper.*$/
+    - /^release.*$/
 before_install:
   # package-lock.json was introduced in npm@5
   - '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest' # skipped when using node 9
-  - npm install -g github-label-sync greenkeeper-lockfile stshell @angular/cli semantic-release typescript
+  - npm install -g github-label-sync stshell typescript @angular/cli
 install:
   - travis_retry npm install
 stages:
@@ -36,8 +36,7 @@ jobs:
     - stage: test
       name: 'Checks and Tests'
       script:
-        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-update || echo "Skipping greenkeeper-lockfile-update";'
-        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && npm audit || echo "Skipping npm audit";'
+        - '[[ $TRAVIS_BRANCH =~ ^release.*$ ]] && npm audit || echo "Skipping npm audit";'
         - commitlint-travis
         - npm run lint
         - docker pull koalaman/shellcheck:stable
@@ -46,7 +45,6 @@ jobs:
         # - npm run test
         # - npm run e2e
         - '[[ $TRAVIS_BRANCH = master ]] && sonar-scanner || echo "Skipping sonar-scanner";'
-        - '[[ $TRAVIS_BRANCH =~ ^greenkeeper.*$ ]] && greenkeeper-lockfile-upload || echo "Skipping greenkeeper-lockfile-upload";'
     - stage: deploy
       name: 'Publish, Upload and Deploy'
       script:
